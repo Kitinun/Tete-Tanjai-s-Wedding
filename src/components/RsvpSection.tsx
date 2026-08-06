@@ -123,31 +123,33 @@ export default function RsvpSection() {
                 id="name"
                 name="name"
                 required
-                type="text" 
-                required 
-                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-[#fff] placeholder-white/20 focus:outline-none focus:border-[#fff] transition-all font-light tracking-wide" 
-                placeholder={t.rsvp.namePlaceholder}
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light placeholder:text-white/30"
+                placeholder="กรอกชื่อ - นามสกุล"
               />
             </motion.div>
 
             {/* Guests Select */}
-            <motion.div variants={fadeUp} className="space-y-1 group">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">{t.rsvp.guestsLabel}</label>
+            <motion.div variants={fadeUp} className="space-y-3">
+              <label htmlFor="guests" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
+                จำนวนผู้เข้าร่วม
+              </label>
               <select
                 id="guests"
                 name="guests"
-                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-white focus:outline-none focus:border-[#fff] transition-all font-light appearance-none cursor-pointer"
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light appearance-none cursor-pointer"
               >
-                <option value="1" className="text-black">{t.rsvp.guests1}</option>
-                <option value="2" className="text-black">{t.rsvp.guests2}</option>
-                <option value="3" className="text-black">{t.rsvp.guests3}</option>
-                <option value="4" className="text-black">{t.rsvp.guests4}</option>
+                <option value="1" className="text-black">1 ท่าน (มาคนเดียว)</option>
+                <option value="2" className="text-black">2 ท่าน (มีผู้ติดตาม)</option>
+                <option value="3" className="text-black">3 ท่าน</option>
+                <option value="4" className="text-black">4 ท่าน</option>
               </select>
             </motion.div>
 
             {/* Attendance Radio */}
-            <motion.div variants={fadeUp} className="space-y-4 pt-2">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1">{t.rsvp.attendanceLabel}</label>
+            <motion.div variants={fadeUp} className="space-y-5 pt-4">
+              <label className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
+                การเข้าร่วม
+              </label>
               <div className="space-y-4">
                 <label className="flex items-center gap-4 cursor-pointer group">
                   <div className="relative flex items-center justify-center">
@@ -155,8 +157,8 @@ export default function RsvpSection() {
                     <div className="w-6 h-6 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] transition-colors"></div>
                     <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
-                  <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    {t.rsvp.acceptText}
+                  <span className="text-white/80 group-hover:text-white transition-colors font-light">
+                    ยินดีมาร่วมงาน
                   </span>
                 </label>
                 <label className="flex items-center gap-4 cursor-pointer group">
@@ -165,8 +167,8 @@ export default function RsvpSection() {
                     <div className="w-6 h-6 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] transition-colors"></div>
                     <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
-                  <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    {t.rsvp.declineText}
+                  <span className="text-white/80 group-hover:text-white transition-colors font-light">
+                    ไม่สามารถมาร่วมงานได้
                   </span>
                 </label>
               </div>
