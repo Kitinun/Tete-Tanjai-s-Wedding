@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'tetetanjaiwedding.my.canva.site',
+        pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      }
     ],
   },
 };

@@ -1,0 +1,117 @@
+"use client";
+
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
+
+const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
+
+export default function HeroSection() {
+  const [mounted, setMounted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  
+  const yBg = useTransform(scrollY, [0, 1000], ["0%", "50%"]);
+  const opacityText = useTransform(scrollY, [0, 800], [1, 0]);
+
+  useEffect(() => {
+    setMounted(true);
+    const targetDate = new Date("2026-09-19T17:30:00+07:00").getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      }
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <section ref={heroRef} className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden">
+      <motion.div style={{ y: yBg }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
+        <Image 
+          src={`${CANVA_BASE}_assets/media/5631863cceece250be09d149b52ef06a.jpg`}
+          alt="Hero Background"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" /> 
+      </motion.div>
+
+      <motion.div
+        style={{ opacity: opacityText }}
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="z-10 flex flex-col items-center pt-32 px-6 w-full max-w-5xl"
+      >
+        <motion.span variants={fadeUp} className="uppercase tracking-[0.3em] text-[10px] md:text-xs text-white/80 mb-6 font-medium drop-shadow-md">
+          You're invited to the wedding of
+        </motion.span>
+        
+        <motion.h1 variants={fadeUp} className="font-cursive text-7xl md:text-9xl lg:text-[10rem] mb-4 text-white drop-shadow-2xl text-center leading-[0.9]">
+          Wongsathon<br />
+          <span className="text-5xl md:text-8xl font-light text-[#f4d4ce]">&amp;</span><br />
+          Pattarapak
+        </motion.h1>
+        
+        <div className="mt-auto flex flex-col items-center pt-24 md:pt-32 w-full">
+          <motion.p variants={fadeUp} className="text-lg md:text-xl text-white drop-shadow-md font-light mb-8 opacity-90">
+            วงศธร บุญอยู่ (แทนใจ) & ภัทรภัค พันธุ์ดี (เตเต้)
+          </motion.p>
+          
+          <motion.div variants={fadeUp} className="flex items-center gap-6 text-white drop-shadow-md mb-12">
+            <div className="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-white/70" />
+            <p className="font-serif italic text-xl md:text-2xl tracking-wide">Saturday, 19 September 2026</p>
+            <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/70" />
+          </motion.div>
+
+          <motion.div variants={scaleUp} className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12">
+            {[
+              { label: 'Days', value: timeLeft.days },
+              { label: 'Hours', value: timeLeft.hours },
+              { label: 'Mins', value: timeLeft.minutes },
+              { label: 'Secs', value: timeLeft.seconds }
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+                <span className="font-serif text-3xl md:text-5xl font-light">{item.value}</span>
+                <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">{item.label}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.p variants={fadeUp} className="mb-12 text-[11px] font-medium tracking-[0.3em] uppercase text-white/70 drop-shadow-md">
+            #haveaTtime
+          </motion.p>
+        </div>
+      </motion.div>
+      
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/50 animate-bounce"
+      >
+        <span className="text-[10px] tracking-widest uppercase mb-2">Scroll</span>
+        <div className="w-[1px] h-8 bg-gradient-to-b from-white/50 to-transparent" />
+      </motion.div>
+    </section>
+  );
+}

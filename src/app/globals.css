@@ -11,8 +11,9 @@
   --color-secondary: #d4a3b3;
   --color-background-soft: #fcf9f9;
   
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-prompt), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-cursive: var(--font-great-vibes), cursive;
 }
 
 :root {
