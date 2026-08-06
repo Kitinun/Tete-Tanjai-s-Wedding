@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function InvitationSection() {
+  const { t } = useLanguage();
   const [currentEvent, setCurrentEvent] = useState(-1);
 
   useEffect(() => {
@@ -32,9 +34,9 @@ export default function InvitationSection() {
   }, []);
 
   const schedule = [
-    { time: "17.30", title: "Photo Backdrop" },
-    { time: "18.30", title: "Wedding Reception" },
-    { time: "20.30", title: "After Party" },
+    { time: "17.30", title: t.invitation.photo },
+    { time: "18.30", title: t.invitation.reception },
+    { time: "20.30", title: t.invitation.afterParty },
   ];
 
   const handleAddToCalendar = () => {
@@ -79,7 +81,7 @@ export default function InvitationSection() {
           {/* Names */}
           <motion.div variants={fadeUp} className="flex flex-col items-center space-y-2">
             <h2 className="font-cursive text-7xl md:text-8xl text-[#2c2825]">Pattarapak</h2>
-            <p className="text-[#6d6661] text-sm md:text-base font-medium tracking-wide">นางสาว ภัทรภัค โพธิกุล (เตเต้)</p>
+            <p className="text-[#6d6661] text-sm md:text-base font-medium tracking-wide">{t.invitation.bride}</p>
             
             <div className="flex items-center gap-4 my-6">
               <div className="w-8 h-[1px] bg-[#94C0D5]/50" />
@@ -88,19 +90,19 @@ export default function InvitationSection() {
             </div>
             
             <h2 className="font-cursive text-7xl md:text-8xl text-[#2c2825]">Wongsathon</h2>
-            <p className="text-[#6d6661] text-sm md:text-base font-medium tracking-wide">นาย วงศธร บุญอยู่ (แทนใจ)</p>
+            <p className="text-[#6d6661] text-sm md:text-base font-medium tracking-wide">{t.invitation.groom}</p>
           </motion.div>
 
           {/* Date & Location */}
           <motion.div variants={fadeUp} className="flex flex-col items-center space-y-2">
             <p className="text-[#8c847d] text-xs uppercase tracking-[0.3em]">Saturday</p>
-            <p className="text-[#c1869e] font-serif font-bold text-2xl md:text-3xl tracking-widest">เสาร์ 19 กันยายน 2026</p>
+            <p className="text-[#c1869e] font-serif font-bold text-2xl md:text-3xl tracking-widest">{t.invitation.date} {t.invitation.year}</p>
             <p className="text-[#6d6661] text-sm md:text-base tracking-widest uppercase mt-2">The Halls Bangkok</p>
           </motion.div>
 
           {/* Schedule */}
           <motion.div variants={fadeUp} className="flex flex-col items-center space-y-3 w-full max-w-[280px] mx-auto">
-            <p className="text-[#2c2825] font-bold text-base tracking-[0.2em] mb-2 uppercase">Schedule</p>
+            <p className="text-[#2c2825] font-bold text-base tracking-[0.2em] mb-2 uppercase">{t.invitation.schedule}</p>
             {schedule.map((item, idx) => (
               <div 
                 key={idx} 
@@ -121,7 +123,7 @@ export default function InvitationSection() {
               onClick={handleAddToCalendar}
               className="px-6 py-3 border border-[#c1869e] text-[#c1869e] rounded-full text-xs uppercase tracking-widest hover:bg-[#c1869e] hover:text-white transition-all duration-300 shadow-sm"
             >
-              📅 Add to Calendar
+              📅 {t.invitation.addToCalendar}
             </button>
           </motion.div>
 
@@ -137,7 +139,7 @@ export default function InvitationSection() {
                 "b2067a1a22c91719cfb733b17b786113.png"
               ].map((src, i) => (
                 <motion.div key={i} whileHover={{ y: -5 }} className="w-10 h-10 md:w-12 md:h-12 relative shadow-md rounded-full overflow-hidden border-2 border-white">
-                  <Image src={`${CANVA_BASE}_assets/media/${src}`} fill alt={`Theme Color ${i+1}`} className="object-cover" />
+                  <Image src={`${CANVA_BASE}_assets/media/${src}`} fill alt={`Theme Color ${i+1}`} className="object-cover" unoptimized />
                 </motion.div>
               ))}
             </div>

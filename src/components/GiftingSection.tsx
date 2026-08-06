@@ -4,8 +4,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function GiftingSection() {
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -27,9 +29,9 @@ export default function GiftingSection() {
         className="text-center z-10"
       >
         <motion.p variants={fadeUp} className="text-[#8c847d] text-xs uppercase tracking-[0.3em] font-semibold mb-2">Blessings</motion.p>
-        <motion.h2 variants={fadeUp} className="font-cursive text-5xl md:text-6xl text-[#2c2825] mb-6">Send a Gift</motion.h2>
+        <motion.h2 variants={fadeUp} className="font-cursive text-5xl md:text-6xl text-[#2c2825] mb-6">{t.gifting.title}</motion.h2>
         <motion.p variants={fadeUp} className="text-[#6d6661] text-sm font-light max-w-md mx-auto mb-10">
-          สำหรับแขกผู้มีเกียรติที่ไม่สะดวกมาร่วมงาน แต่ประสงค์จะมอบซองผูกข้อมือเพื่อแสดงความยินดี
+          {t.gifting.subtitle}
         </motion.p>
 
         <motion.button 
@@ -37,7 +39,7 @@ export default function GiftingSection() {
           onClick={() => setIsModalOpen(true)}
           className="bg-[#c1869e] text-white px-8 py-3 rounded-full font-serif italic text-lg shadow-lg hover:bg-[#a66a81] hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
         >
-          💌 Click for Details
+          {t.gifting.button}
         </motion.button>
       </motion.div>
 
@@ -64,9 +66,9 @@ export default function GiftingSection() {
                 ✕
               </button>
               
-              <h3 className="font-cursive text-4xl text-[#c1869e] mb-2">With Thanks</h3>
+              <h3 className="font-cursive text-4xl text-[#c1869e] mb-2">{t.gifting.modalTitle}</h3>
               <p className="text-center text-[#6d6661] text-xs mb-6 font-light">
-                ขอบพระคุณสำหรับทุกคำอวยพรครับ/ค่ะ
+                {t.gifting.modalSubtitle}
               </p>
 
               <div className="w-48 h-48 bg-gray-100 rounded-2xl mb-6 relative overflow-hidden border border-gray-200 p-2 flex items-center justify-center">
@@ -75,16 +77,16 @@ export default function GiftingSection() {
               </div>
 
               <div className="w-full bg-[#fbf9f6] rounded-xl p-4 flex flex-col items-center mb-6 border border-[#e6d5c3]/50">
-                <p className="text-xs text-gray-500 mb-1">ธนาคารกสิกรไทย (KBank)</p>
+                <p className="text-xs text-gray-500 mb-1">{t.gifting.bank}</p>
                 <p className="font-mono text-lg text-[#2c2825] font-semibold">{accountNumber}</p>
-                <p className="text-xs text-gray-500 mt-1">นาย วงศธร บุญอยู่</p>
+                <p className="text-xs text-gray-500 mt-1">{t.gifting.accountName}</p>
               </div>
 
               <button 
                 onClick={handleCopy}
                 className={`w-full py-3 rounded-full font-sans text-sm tracking-widest uppercase transition-colors shadow-md ${copied ? 'bg-green-500 text-white' : 'bg-[#2c2825] text-white hover:bg-black'}`}
               >
-                {copied ? "Copied!" : "Copy Account"}
+                {copied ? t.gifting.copiedButton : t.gifting.copyButton}
               </button>
             </motion.div>
           </div>

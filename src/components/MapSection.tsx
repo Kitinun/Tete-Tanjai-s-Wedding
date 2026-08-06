@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function MapSection() {
-
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center py-32 px-6 overflow-hidden">
       {/* Background Image */}
@@ -36,10 +37,10 @@ export default function MapSection() {
           className="w-full lg:w-1/2 flex flex-col text-white drop-shadow-lg text-center lg:text-left"
         >
           <h2 className="font-cursive text-6xl md:text-7xl mb-4 text-[#f3e3ce]">
-            The Halls Bangkok
+            {t.map.venue}
           </h2>
           <p className="font-light tracking-wide text-white/90 mb-8 text-[15px] leading-relaxed">
-            ซอยวิภาวดี 64 แยก 2 กรุงเทพมหานคร
+            {t.map.address}
           </p>
 
           {/* Beautiful Venue Photo Placeholder */}
@@ -49,10 +50,11 @@ export default function MapSection() {
               fill
               alt="The Halls Bangkok"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
+              unoptimized
             />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
             <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 text-xs font-sans tracking-widest text-white shadow-lg uppercase">
-              Location
+              {t.map.location}
             </div>
           </div>
 
@@ -62,7 +64,7 @@ export default function MapSection() {
               target="_blank"
               className="bg-[#f3e3ce] text-[#2c2825] px-8 py-3.5 md:py-4 rounded-full font-serif italic text-lg md:text-xl text-center hover:bg-white transition-all shadow-xl hover:-translate-y-1"
             >
-              Get Directions
+              {t.map.directions}
             </Link>
             <Link
               href="https://www.thehallsbangkok.com/"
