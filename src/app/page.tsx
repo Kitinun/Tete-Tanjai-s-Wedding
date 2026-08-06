@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Heart, MapPin, Clock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -10,11 +10,36 @@ const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Target date: 19 September 2026, 17:30 (Bangkok Time)
+    const targetDate = new Date("2026-09-19T17:30:00+07:00").getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      }
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   if (!mounted) return null;
 
-  const fadeIn = {
+  const fadeIn: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
   };
@@ -52,80 +77,112 @@ export default function Home() {
             Pattarapak
           </h1>
           
-          <div className="mt-auto mb-12 flex flex-col items-center pt-32">
+          <div className="mt-auto flex flex-col items-center pt-32">
             <p className="text-lg md:text-xl text-white drop-shadow-md font-light mb-6">
               วงศธร บุญอยู่ (แทนใจ) & ภัทรภัค พันธุ์ดี (เตเต้)
             </p>
-            <div className="flex items-center gap-4 text-white drop-shadow-md">
+            <div className="flex items-center gap-4 text-white drop-shadow-md mb-8">
               <div className="h-[1px] w-12 bg-white/60" />
               <p className="font-serif italic text-xl md:text-2xl">Saturday, 19 September 2026</p>
               <div className="h-[1px] w-12 bg-white/60" />
             </div>
-            <p className="mt-8 text-sm font-medium tracking-widest uppercase text-white/90 drop-shadow-md">
+
+            {/* Countdown */}
+            <div className="flex gap-4 md:gap-6 text-white drop-shadow-lg mb-8">
+              <div className="flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 min-w-[70px] md:min-w-[90px] border border-white/20">
+                <span className="font-serif text-2xl md:text-4xl">{timeLeft.days}</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 mt-1">Days</span>
+              </div>
+              <div className="flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 min-w-[70px] md:min-w-[90px] border border-white/20">
+                <span className="font-serif text-2xl md:text-4xl">{timeLeft.hours}</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 mt-1">Hours</span>
+              </div>
+              <div className="flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 min-w-[70px] md:min-w-[90px] border border-white/20">
+                <span className="font-serif text-2xl md:text-4xl">{timeLeft.minutes}</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 mt-1">Mins</span>
+              </div>
+              <div className="flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 min-w-[70px] md:min-w-[90px] border border-white/20">
+                <span className="font-serif text-2xl md:text-4xl">{timeLeft.seconds}</span>
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 mt-1">Secs</span>
+              </div>
+            </div>
+
+            <p className="mb-12 text-sm font-medium tracking-widest uppercase text-white/90 drop-shadow-md">
               #haveaTtime
             </p>
           </div>
         </motion.div>
       </section>
 
-      {/* Schedule & Info Section */}
-      <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden py-24">
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image 
-            src={`${CANVA_BASE}_assets/media/dd7ab6ed5c1a6a58cc15c529fa093ebf.jpg`}
-            alt="Schedule Background"
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
-        </div>
-
+      {/* Invitation Card Section (White Background) */}
+      <section className="relative min-h-[100svh] w-full bg-white flex items-center justify-center py-20 px-4 md:px-12 overflow-hidden">
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeIn}
-          className="z-10 w-full max-w-4xl mx-auto px-6"
+          className="w-full max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24"
         >
-          <div className="glass rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-white/40">
-            <div className="text-center mb-12 relative z-10">
-              <h2 className="font-serif text-3xl md:text-5xl text-[#8c5b65] mb-2">Join us for the Celebration</h2>
-              <p className="text-[#8c5b65]/70 tracking-widest uppercase text-sm">#haveaTtime</p>
-            </div>
-
-            <div className="space-y-6 relative z-10 max-w-2xl mx-auto">
-              <div className="flex items-center gap-6 p-6 bg-white/50 rounded-3xl hover:bg-white/70 transition-colors">
-                <Clock className="w-8 h-8 text-rose-400 shrink-0" strokeWidth={1.5} />
-                <div>
-                  <h3 className="text-xl font-serif text-[#8c5b65]">17.30 Onwards</h3>
-                  <p className="text-[#8c5b65]/80">Cocktail Reception & Photo Backdrop</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 p-6 bg-white/50 rounded-3xl hover:bg-white/70 transition-colors">
-                <MapPin className="w-8 h-8 text-rose-400 shrink-0" strokeWidth={1.5} />
-                <div>
-                  <h3 className="text-xl font-serif text-[#8c5b65]">The Halls Bangkok</h3>
-                  <p className="text-[#8c5b65]/80">Wedding Ceremony</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-12 flex justify-center">
-              <Link 
-                href="https://maps.app.goo.gl/NMLpd3hMBHzAbXLc9" 
-                target="_blank"
-                className="inline-flex items-center gap-3 px-10 py-5 bg-[#8c5b65] text-white rounded-full font-medium tracking-wide hover:bg-[#724a52] transition-all hover:scale-105 shadow-xl"
-              >
-                Open Google Maps
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
+          
+          {/* Left Column - Graphic */}
+          <div className="w-full md:w-1/2 flex items-center justify-center">
+             <div className="relative w-full max-w-[450px] aspect-[3/4]">
+                <Image 
+                  src={`${CANVA_BASE}_assets/media/dd7ab6ed5c1a6a58cc15c529fa093ebf.jpg`} 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain" 
+                  alt="Wedding Card Graphic" 
+                />
+             </div>
           </div>
+
+          {/* Right Column - Text Details */}
+          <div className="w-full md:w-1/2 flex flex-col items-center text-center space-y-12">
+            
+            {/* Names */}
+            <div className="flex flex-col items-center space-y-1">
+              <h2 className="font-serif text-5xl md:text-6xl text-[#3b3b3d]" style={{ fontFamily: 'Playfair Display, serif' }}>Pattarapak</h2>
+              <p className="text-[#3b3b3d] text-sm font-medium mt-1">ภัทรภัค พันธุ์ดี (เตเต้)</p>
+              
+              <span className="font-serif text-3xl text-[#94C0D5] my-2" style={{ fontFamily: 'Playfair Display, serif' }}>and</span>
+              
+              <h2 className="font-serif text-5xl md:text-6xl text-[#3b3b3d]" style={{ fontFamily: 'Playfair Display, serif' }}>Wongsathon</h2>
+              <p className="text-[#3b3b3d] text-sm font-medium mt-1">วงศธร บุญอยู่ (แทนใจ)</p>
+            </div>
+
+            {/* Date & Location */}
+            <div className="flex flex-col items-center space-y-1">
+              <p className="text-[#3b3b3d] text-sm tracking-widest mb-1">Saturday</p>
+              <p className="text-[#E39FBD] font-bold text-xl tracking-wider">19 September 2026</p>
+              <p className="text-[#3b3b3d] text-sm mt-1 tracking-wider">The Halls Bangkok</p>
+            </div>
+
+            {/* Schedule */}
+            <div className="flex flex-col items-center space-y-1">
+              <p className="text-[#3b3b3d] font-bold text-[15px] tracking-wide mb-1">17.30 onwards</p>
+              <p className="text-[#3b3b3d] text-sm">Photo Backdrop</p>
+              <p className="text-[#3b3b3d] text-sm">Wedding Reception (Buffet)</p>
+              <p className="text-[#3b3b3d] text-sm">After Party</p>
+            </div>
+
+            {/* Theme */}
+            <div className="flex flex-col items-center space-y-3">
+              <p className="text-[#3b3b3d] text-[15px]">#haveaTtime</p>
+              <p className="font-serif text-[#3b3b3d] text-lg mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>Theme:</p>
+              <div className="flex gap-4">
+                <Image src={`${CANVA_BASE}_assets/media/05e9d64f99967e3bb465a6252628df6b.png`} width={36} height={36} alt="Theme Color 1" unoptimized />
+                <Image src={`${CANVA_BASE}_assets/media/a2a21008f7fd52aa396357243f2495d7.png`} width={36} height={36} alt="Theme Color 2" unoptimized />
+                <Image src={`${CANVA_BASE}_assets/media/cfe81949fa90d573d1bc1bdc93ec9abe.png`} width={36} height={36} alt="Theme Color 3" unoptimized />
+                <Image src={`${CANVA_BASE}_assets/media/b2067a1a22c91719cfb733b17b786113.png`} width={36} height={36} alt="Theme Color 4" unoptimized />
+              </div>
+            </div>
+
+          </div>
+
         </motion.div>
       </section>
+
 
       {/* Gallery Section */}
       <section className="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden py-24">
