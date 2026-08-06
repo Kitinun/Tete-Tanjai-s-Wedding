@@ -1,12 +1,42 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function InvitationSection() {
+  const [currentEvent, setCurrentEvent] = useState(-1);
+
+  useEffect(() => {
+    const checkSchedule = () => {
+      const now = new Date();
+      const weddingDay = new Date("2026-09-19T00:00:00+07:00");
+      
+      if (now.getDate() === weddingDay.getDate() && now.getMonth() === weddingDay.getMonth() && now.getFullYear() === weddingDay.getFullYear()) {
+        const hours = now.getHours();
+        const mins = now.getMinutes();
+        const time = hours + mins / 60;
+        
+        if (time >= 17.5 && time < 18.5) setCurrentEvent(0); // 17.30 - 18.30
+        else if (time >= 18.5 && time < 20.5) setCurrentEvent(1); // 18.30 - 20.30
+        else if (time >= 20.5) setCurrentEvent(2); // 20.30+
+        else setCurrentEvent(-1);
+      }
+    };
+    checkSchedule();
+    const interval = setInterval(checkSchedule, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const schedule = [
+    { time: "17.30", title: "Photo Backdrop" },
+    { time: "18.30", title: "Wedding Reception" },
+    { time: "20.30", title: "After Party" },
+  ];
+
   return (
     <section className="relative w-full bg-white flex items-center justify-center py-32 px-6 md:px-12 overflow-hidden">
       {/* Subtle Background Pattern */}
@@ -59,11 +89,20 @@ export default function InvitationSection() {
           </motion.div>
 
           {/* Schedule */}
-          <motion.div variants={fadeUp} className="flex flex-col items-center space-y-2">
-            <p className="text-[#2c2825] font-bold text-base tracking-[0.2em] mb-2">17.30 onwards</p>
-            <p className="text-[#6d6661] text-sm">Photo Backdrop</p>
-            <p className="text-[#6d6661] text-sm">Wedding Reception (Buffet)</p>
-            <p className="text-[#6d6661] text-sm">After Party</p>
+          <motion.div variants={fadeUp} className="flex flex-col items-center space-y-3 w-full max-w-[280px] mx-auto">
+            <p className="text-[#2c2825] font-bold text-base tracking-[0.2em] mb-2 uppercase">Schedule</p>
+            {schedule.map((item, idx) => (
+              <div 
+                key={idx} 
+                className={`flex items-center w-full px-4 py-2.5 rounded-xl transition-all duration-500 ${currentEvent === idx ? 'bg-[#c1869e]/10 border border-[#c1869e]/30 shadow-sm scale-105' : 'bg-transparent'}`}
+              >
+                <div className={`w-[70px] font-serif text-sm font-bold ${currentEvent === idx ? 'text-[#c1869e]' : 'text-[#8c847d]'}`}>{item.time}</div>
+                <div className={`flex-1 text-left text-sm ${currentEvent === idx ? 'text-[#2c2825] font-medium' : 'text-[#6d6661]'}`}>{item.title}</div>
+                {currentEvent === idx && (
+                  <div className="w-2 h-2 rounded-full bg-[#c1869e] animate-ping" />
+                )}
+              </div>
+            ))}
           </motion.div>
 
           {/* Theme */}

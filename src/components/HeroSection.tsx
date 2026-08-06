@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import confetti from "canvas-confetti";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
@@ -10,12 +11,40 @@ const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 export default function HeroSection() {
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [isWeddingDay, setIsWeddingDay] = useState(false);
   
   const heroRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
   
   const yBg = useTransform(scrollY, [0, 1000], ["0%", "50%"]);
   const opacityText = useTransform(scrollY, [0, 800], [1, 0]);
+
+  const fireConfetti = () => {
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#fffbac', '#c1869e', '#f9f5e3']
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#fffbac', '#c1869e', '#f9f5e3']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -31,6 +60,8 @@ export default function HeroSection() {
           minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((difference % (1000 * 60)) / 1000),
         });
+      } else {
+        setIsWeddingDay(true);
       }
     };
 
@@ -83,21 +114,34 @@ export default function HeroSection() {
             <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/70" />
           </motion.div>
 
-          <motion.div variants={scaleUp} className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12">
-            {[
-              { label: 'Days', value: timeLeft.days },
-              { label: 'Hours', value: timeLeft.hours },
-              { label: 'Mins', value: timeLeft.minutes },
-              { label: 'Secs', value: timeLeft.seconds }
-            ].map((item, idx) => (
-              <div key={idx} className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
-                <span className="font-serif text-3xl md:text-5xl font-light">{item.value}</span>
-                <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">{item.label}</span>
-              </div>
-            ))}
-          </motion.div>
+          {isWeddingDay ? (
+            <motion.div variants={scaleUp} className="mb-12">
+              <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
+                Today is the Day!
+              </h2>
+            </motion.div>
+          ) : (
+            <motion.div variants={scaleUp} className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12">
+              {[
+                { label: 'Days', value: timeLeft.days },
+                { label: 'Hours', value: timeLeft.hours },
+                { label: 'Mins', value: timeLeft.minutes },
+                { label: 'Secs', value: timeLeft.seconds }
+              ].map((item, idx) => (
+                <div key={idx} className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+                  <span className="font-serif text-3xl md:text-5xl font-light">{item.value}</span>
+                  <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">{item.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          )}
 
-          <motion.p variants={fadeUp} className="mb-12 text-[11px] font-medium tracking-[0.3em] uppercase text-white/70 drop-shadow-md">
+          <motion.p 
+            variants={fadeUp} 
+            onClick={() => fireConfetti()}
+            className="mb-12 text-[11px] font-medium tracking-[0.3em] uppercase text-white/70 drop-shadow-md cursor-pointer hover:text-white transition-colors"
+            title="Click for a surprise!"
+          >
             #haveaTtime
           </motion.p>
         </div>

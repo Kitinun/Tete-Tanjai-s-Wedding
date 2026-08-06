@@ -5,6 +5,8 @@ import HeroSection from '@/components/HeroSection';
 const InvitationSection = dynamic(() => import('@/components/InvitationSection'), { ssr: true });
 const MapSection = dynamic(() => import('@/components/MapSection'), { ssr: true });
 const GallerySection = dynamic(() => import('@/components/GallerySection'), { ssr: true });
+const GuestbookSection = dynamic(() => import('@/components/GuestbookSection'), { ssr: true });
+const GiftingSection = dynamic(() => import('@/components/GiftingSection'), { ssr: true });
 const RsvpSection = dynamic(() => import('@/components/RsvpSection'), { ssr: true });
 
 export default function Home() {
@@ -14,6 +16,8 @@ export default function Home() {
       <InvitationSection />
       <MapSection />
       <GallerySection />
+      <GuestbookSection />
+      <GiftingSection />
       <RsvpSection />
     </main>
   );
