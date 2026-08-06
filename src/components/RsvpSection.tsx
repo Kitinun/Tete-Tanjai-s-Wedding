@@ -3,10 +3,12 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function RsvpSection() {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden py-32">
       {/* Background Image */}
@@ -44,40 +46,40 @@ export default function RsvpSection() {
             RSVP
           </motion.h2>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-1 relative z-10">
-            เพื่อความสะดวกต่อการจัดสรรและดูแลแขก
+            {t.rsvp.subtitle1}
           </motion.p>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-12 relative z-10">
-            รบกวนตอบกลับแบบฟอร์มนี้
+            {t.rsvp.subtitle2}
           </motion.p>
           
           {/* Modern Vintage Form */}
           <motion.form variants={fadeUp} className="space-y-10 text-left relative z-10 max-w-sm mx-auto" onSubmit={(e) => { e.preventDefault(); alert("RSVP Successfully submitted! Thank you."); }}>
             
             <div className="space-y-1 group">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">Name</label>
+              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">{t.rsvp.nameLabel}</label>
               <input 
                 type="text" 
                 required 
                 className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-[#fff] placeholder-white/20 focus:outline-none focus:border-[#fff] transition-all font-light tracking-wide" 
-                placeholder="กรอกชื่อ - นามสกุล" 
+                placeholder={t.rsvp.namePlaceholder}
               />
             </div>
 
             <div className="space-y-1 group">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">Number of Guests</label>
+              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">{t.rsvp.guestsLabel}</label>
               <div className="relative">
                 <select className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-[#fff] focus:outline-none focus:border-[#fff] transition-all appearance-none font-light tracking-wide">
-                  <option value="1" className="text-black">1 ท่าน (Just me)</option>
-                  <option value="2" className="text-black">2 ท่าน (Plus one)</option>
-                  <option value="3" className="text-black">3 ท่าน</option>
-                  <option value="4" className="text-black">4 ท่าน</option>
+                  <option value="1" className="text-black">{t.rsvp.guests1}</option>
+                  <option value="2" className="text-black">{t.rsvp.guests2}</option>
+                  <option value="3" className="text-black">{t.rsvp.guests3}</option>
+                  <option value="4" className="text-black">{t.rsvp.guests4}</option>
                 </select>
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#e6d5c3]/60 text-xs">▼</div>
               </div>
             </div>
 
             <div className="space-y-4 pt-2">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1">Attendance</label>
+              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1">{t.rsvp.attendanceLabel}</label>
               <div className="flex flex-col gap-3">
                 <label className="flex items-center gap-4 cursor-pointer group">
                   <input type="radio" name="attendance" value="yes" className="peer sr-only" defaultChecked />
@@ -85,7 +87,7 @@ export default function RsvpSection() {
                     <div className="w-2 h-2 rounded-full bg-black/60 opacity-0 peer-checked:opacity-100 transition-opacity" />
                   </div>
                   <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    ยินดีมาร่วมงาน (Joyfully Accept)
+                    {t.rsvp.acceptText}
                   </span>
                 </label>
                 
@@ -95,7 +97,7 @@ export default function RsvpSection() {
                     <div className="w-2 h-2 rounded-full bg-black/60 opacity-0 peer-checked:opacity-100 transition-opacity" />
                   </div>
                   <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    ไม่สามารถมาร่วมงานได้ (Regretfully Decline)
+                    {t.rsvp.declineText}
                   </span>
                 </label>
               </div>
@@ -105,13 +107,13 @@ export default function RsvpSection() {
               type="submit"
               className="w-full py-4 mt-8 bg-transparent border border-[#e6d5c3] text-[#e6d5c3] rounded-full font-serif italic text-xl hover:bg-[#e6d5c3] hover:text-black transition-all duration-500"
             >
-              Confirm Attendance
+              {t.rsvp.confirmButton}
             </button>
           </motion.form>
         </motion.div>
 
         <motion.p variants={fadeUp} className="mt-20 font-cursive text-white/90 drop-shadow-2xl text-4xl md:text-5xl">
-          Can't wait to see you all ♡︎
+          {t.rsvp.footerMessage}
         </motion.p>
       </motion.div>
     </section>

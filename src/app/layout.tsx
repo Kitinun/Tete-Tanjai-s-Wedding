@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Prompt, Playfair_Display, Alex_Brush } from "next/font/google";
-import MusicPlayer from "@/components/MusicPlayer";
+import LanguageToggle from "@/components/LanguageToggle";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 import "./globals.css";
 
 const prompt = Prompt({
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Tete-Tanjai's Wedding",
     images: [
       {
-        url: "https://tetetanjaiwedding.my.canva.site/_assets/media/dd7ab6ed5c1a6a58cc15c529fa093ebf.jpg",
+        url: "https://tetetanjaiwedding.my.canva.site/_assets/media/9a65f2bc8d9f65c7c598de407517aa6c.jpg",
         width: 1200,
         height: 630,
         alt: "Tete & Tanjai Wedding Invitation",
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     description:
       "ขอเชิญร่วมงานมงคลสมรส วงศธร & ภัทรภัค (แทนใจ & เตเต้) วันเสาร์ที่ 19 กันยายน 2026",
     images: [
-      "https://tetetanjaiwedding.my.canva.site/_assets/media/dd7ab6ed5c1a6a58cc15c529fa093ebf.jpg",
+      "https://tetetanjaiwedding.my.canva.site/_assets/media/9a65f2bc8d9f65c7c598de407517aa6c.jpg",
     ],
   },
 };
@@ -67,8 +68,10 @@ export default function RootLayout({
       <body
         className={`${prompt.variable} ${playfair.variable} ${alexBrush.variable} antialiased`}
       >
-        {children}
-        <MusicPlayer />
+        <LanguageProvider>
+          {children}
+          <LanguageToggle />
+        </LanguageProvider>
       </body>
     </html>
   );
