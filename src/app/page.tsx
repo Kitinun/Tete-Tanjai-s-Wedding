@@ -183,6 +183,62 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Map Section */}
+      <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center py-20 px-4 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image 
+            src={`${CANVA_BASE}_assets/media/7dbfa60af26b82b152de4983496d6b4d.jpg`}
+            alt="Map Background"
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+        </div>
+
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeIn}
+          className="z-10 w-full max-w-4xl mx-auto flex flex-col items-center"
+        >
+          {/* Map Container */}
+          <div className="w-full bg-white/20 p-2 md:p-4 rounded-3xl shadow-2xl backdrop-blur-sm border border-white/30 mb-8">
+            <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner bg-gray-100">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.7432616239127!2d100.58414437599023!3d13.854378195155465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e29d0f04c6baeb%3A0xc62b7190f84a45a3!2sThe%20Halls%20Bangkok!5e0!3m2!1sen!2sth!4v1700000000000!5m2!1sen!2sth" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={true} 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                title="The Halls Bangkok Map"
+              ></iframe>
+            </div>
+          </div>
+
+          <Link 
+            href="https://maps.app.goo.gl/NMLpd3hMBHzAbXLc9" 
+            target="_blank"
+            className="flex flex-col items-center group cursor-pointer"
+          >
+            <div className="bg-white text-[#205077] px-10 py-3 rounded-full font-sans tracking-wide mb-4 shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+              Click
+            </div>
+            <h3 className="font-serif text-3xl md:text-4xl text-white drop-shadow-md mb-2 group-hover:text-rose-100 transition-colors" style={{ fontFamily: 'Playfair Display, serif' }}>
+              The Halls Bangkok
+            </h3>
+          </Link>
+
+          <p className="mt-16 font-serif text-white/90 drop-shadow-md text-lg italic">
+            Can't wait to see you all ♡︎
+          </p>
+
+        </motion.div>
+      </section>
 
       {/* Gallery Section */}
       <section className="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden py-24">
