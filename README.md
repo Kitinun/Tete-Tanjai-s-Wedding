@@ -1,37 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💍 Tete & Tanjai - Wedding Invitation
 
-## Getting Started
+A beautiful, performant, and interactive wedding invitation web application inspired by elegant Canva designs. Built with modern web technologies, this project features real-time RSVP tracking and a live guestbook powered by Google Sheets.
 
-First, run the development server:
+## ✨ Features
+
+- **Elegant Design:** Smooth scroll, masonry layouts, and frosted glass effects.
+- **Smooth Animations:** Powered by `framer-motion` for delightful user interactions (fade-ins, pop-layouts, scrolling text).
+- **Real-time Guestbook (สมุดอวยพร):** Guests can leave well wishes. The UI displays up to 6 wishes at a time, randomly cycling through them every 5 seconds to keep the board fresh and engaging.
+- **RSVP System:** Guests can confirm their attendance. A live counter displays the total number of confirmed guests instantly.
+- **Optimistic UI:** Lightning-fast form submissions (fire-and-forget) without waiting for slow server responses.
+- **Global Pre-fetching:** Data is fetched instantly upon site load via React Context (`WeddingDataContext`), providing a seamless zero-wait experience when scrolling to interactive sections.
+- **Google Sheets Backend:** No traditional database required! All data is securely stored and fetched from a Google Sheet via Google Apps Script.
+
+## 🛠 Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (React, App Router, TypeScript)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Backend/Database:** Google Apps Script + Google Sheets
+
+## 🚀 Getting Started
+
+### 1. Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 2. Google Sheets Setup (Database)
+
+To make the RSVP and Guestbook work, you need to set up a Google Sheet:
+1. Create a new Google Sheet.
+2. Create two tabs (sheets) exactly named:
+   - `Guestbook` (Columns: Timestamp, Name, Message)
+   - `RSVP` (Columns: Timestamp, Name, Guests, Attendance)
+3. Go to **Extensions > Apps Script**.
+4. Paste your script that includes both `doPost(e)` (for saving data) and `doGet(e)` (for fetching wishes and RSVP total).
+5. Click **Deploy > New Deployment**.
+6. Set **Who has access** to **Anyone**.
+7. Copy the generated **Web App URL**.
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root of your project and add your Google Apps Script URL:
+
+```env
+NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/your_script_id/exec
+```
+
+### 4. Running the Development Server
+
+Start the local server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This application can be easily deployed on Vercel, Netlify, or any hosting service that supports Next.js.
+Make sure to add the `NEXT_PUBLIC_GOOGLE_SCRIPT_URL` environment variable in your hosting provider's dashboard before deploying.
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# Tete-Tanjai-s-Wedding
+---
+*Crafted with ❤️ for Tete & Tanjai's special day.*

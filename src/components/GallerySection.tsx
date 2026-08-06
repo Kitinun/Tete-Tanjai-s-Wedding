@@ -3,12 +3,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function GallerySection() {
-  const { t } = useLanguage();
+
   return (
     <section className="relative py-32 bg-[#fdfbfb] w-full flex items-center justify-center overflow-hidden px-6">
       <motion.div 
@@ -19,7 +18,7 @@ export default function GallerySection() {
         className="z-10 w-full max-w-7xl mx-auto"
       >
         <motion.div variants={fadeUp} className="text-center mb-20">
-          <h2 className="font-cursive text-7xl md:text-8xl text-[#8c5b65] mb-4">{t.gallery.title}</h2>
+          <h2 className="font-cursive text-7xl md:text-8xl text-[#8c5b65] mb-4">ช่วงเวลาแห่งความสุข</h2>
           <p className="text-[#8c5b65]/60 tracking-[0.3em] uppercase text-xs">#haveaTtime</p>
         </motion.div>
 
@@ -31,7 +30,7 @@ export default function GallerySection() {
              { src: "c42c25e3899e87ace5b640076877d2cf.jpg", offset: "lg:mt-24" }
            ].map((img, i) => (
              <motion.div key={i} variants={fadeUp} className={`aspect-[3/4] relative rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer ${img.offset}`}>
-                <Image src={`${CANVA_BASE}_assets/media/${img.src}`} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover hover:scale-110 transition-transform duration-700 ease-out" alt={`Gallery ${i+1}`} unoptimized />
+                <Image src={`${CANVA_BASE}_assets/media/${img.src}`} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover hover:scale-110 transition-transform duration-700 ease-out" alt={`Gallery ${i+1}`} />
                 <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors duration-500" />
              </motion.div>
            ))}

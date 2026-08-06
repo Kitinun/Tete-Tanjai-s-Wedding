@@ -1,14 +1,67 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useWeddingData } from "@/lib/WeddingDataContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function RsvpSection() {
-  const { t } = useLanguage();
+  const { rsvpTotal, isLoading, incrementRsvp } = useWeddingData();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const guests = formData.get("guests") as string;
+    const attendance = formData.get("attendance") as string;
+    const formEl = e.target as HTMLFormElement;
+    
+    try {
+      const url = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+      if (url) {
+        fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify({
+            type: "rsvp",
+            name,
+            guests,
+            attendance,
+          }),
+        }).catch(console.error);
+      }
+      
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setIsSuccess(true);
+      
+      // Optimistically update the RSVP total if they said 'yes'
+      if (attendance === "yes" && rsvpTotal !== null) {
+        incrementRsvp(parseInt(guests) || 1);
+      }
+      
+      formEl.reset();
+      
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 4000);
+      
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden py-32">
       {/* Background Image */}
@@ -32,10 +85,10 @@ export default function RsvpSection() {
       >
         {/* Sparkle Decorations */}
         <div className="absolute -top-16 -left-4 md:-left-12 w-16 h-16 opacity-80 animate-[pulse_3s_ease-in-out_infinite]">
-          <Image src={`${CANVA_BASE}_assets/media/9e00507e84aa7092c87861af29bd521f.png`} fill alt="Sparkle" className="object-contain" unoptimized />
+          <Image src={`${CANVA_BASE}_assets/media/9e00507e84aa7092c87861af29bd521f.png`} fill alt="Sparkle" className="object-contain" />
         </div>
         <div className="absolute top-24 -right-4 md:-right-16 w-12 h-12 opacity-60 animate-[pulse_4s_ease-in-out_infinite]">
-          <Image src={`${CANVA_BASE}_assets/media/9e00507e84aa7092c87861af29bd521f.png`} fill alt="Sparkle" className="object-contain" unoptimized />
+          <Image src={`${CANVA_BASE}_assets/media/9e00507e84aa7092c87861af29bd521f.png`} fill alt="Sparkle" className="object-contain" />
         </div>
 
         <motion.div variants={scaleUp} className="bg-black/40 backdrop-blur-[8px] rounded-t-full rounded-b-3xl p-8 pt-16 md:p-14 md:pt-20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] border border-[#e6d5c3]/30 relative overflow-hidden">
@@ -46,74 +99,136 @@ export default function RsvpSection() {
             RSVP
           </motion.h2>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-1 relative z-10">
-            {t.rsvp.subtitle1}
+            เพื่อความสะดวกต่อการจัดสรรและดูแลแขก
           </motion.p>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-12 relative z-10">
-            {t.rsvp.subtitle2}
+            รบกวนตอบกลับแบบฟอร์มนี้
           </motion.p>
-          
-          {/* Modern Vintage Form */}
-          <motion.form variants={fadeUp} className="space-y-10 text-left relative z-10 max-w-sm mx-auto" onSubmit={(e) => { e.preventDefault(); alert("RSVP Successfully submitted! Thank you."); }}>
-            
-            <div className="space-y-1 group">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">{t.rsvp.nameLabel}</label>
-              <input 
-                type="text" 
-                required 
-                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-[#fff] placeholder-white/20 focus:outline-none focus:border-[#fff] transition-all font-light tracking-wide" 
-                placeholder={t.rsvp.namePlaceholder}
+
+          {/* Form */}
+          <motion.form 
+            variants={staggerContainer}
+            onSubmit={handleSubmit} 
+            className="space-y-10 relative z-10"
+          >
+            {/* Name Input */}
+            <motion.div variants={fadeUp} className="space-y-3">
+              <label htmlFor="name" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
+                ชื่อ - นามสกุล
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="กรอกชื่อ - นามสกุล"
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light placeholder:text-white/30"
               />
-            </div>
+            </motion.div>
 
-            <div className="space-y-1 group">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1 transition-colors group-focus-within:text-[#fff]">{t.rsvp.guestsLabel}</label>
-              <div className="relative">
-                <select className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-[#fff] focus:outline-none focus:border-[#fff] transition-all appearance-none font-light tracking-wide">
-                  <option value="1" className="text-black">{t.rsvp.guests1}</option>
-                  <option value="2" className="text-black">{t.rsvp.guests2}</option>
-                  <option value="3" className="text-black">{t.rsvp.guests3}</option>
-                  <option value="4" className="text-black">{t.rsvp.guests4}</option>
-                </select>
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-[#e6d5c3]/60 text-xs">▼</div>
-              </div>
-            </div>
+            {/* Guests Select */}
+            <motion.div variants={fadeUp} className="space-y-3">
+              <label htmlFor="guests" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
+                จำนวนผู้เข้าร่วม
+              </label>
+              <select
+                id="guests"
+                name="guests"
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light appearance-none cursor-pointer"
+              >
+                <option value="1" className="text-black">1 ท่าน (มาคนเดียว)</option>
+                <option value="2" className="text-black">2 ท่าน (มีผู้ติดตาม)</option>
+                <option value="3" className="text-black">3 ท่าน</option>
+                <option value="4" className="text-black">4 ท่าน</option>
+              </select>
+            </motion.div>
 
-            <div className="space-y-4 pt-2">
-              <label className="block text-[#e6d5c3] font-serif italic text-lg ml-1">{t.rsvp.attendanceLabel}</label>
-              <div className="flex flex-col gap-3">
+            {/* Attendance Radio */}
+            <motion.div variants={fadeUp} className="space-y-5 pt-4">
+              <label className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
+                การเข้าร่วม
+              </label>
+              <div className="space-y-4">
                 <label className="flex items-center gap-4 cursor-pointer group">
-                  <input type="radio" name="attendance" value="yes" className="peer sr-only" defaultChecked />
-                  <div className="w-5 h-5 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] peer-checked:bg-[#f3e3ce] transition-all flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-black/60 opacity-0 peer-checked:opacity-100 transition-opacity" />
+                  <div className="relative flex items-center justify-center">
+                    <input type="radio" name="attendance" value="yes" defaultChecked className="peer sr-only" />
+                    <div className="w-6 h-6 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] transition-colors"></div>
+                    <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
-                  <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    {t.rsvp.acceptText}
+                  <span className="text-white/80 group-hover:text-white transition-colors font-light">
+                    ยินดีมาร่วมงาน
                   </span>
                 </label>
-                
                 <label className="flex items-center gap-4 cursor-pointer group">
-                  <input type="radio" name="attendance" value="no" className="peer sr-only" />
-                  <div className="w-5 h-5 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] peer-checked:bg-[#f3e3ce] transition-all flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-black/60 opacity-0 peer-checked:opacity-100 transition-opacity" />
+                  <div className="relative flex items-center justify-center">
+                    <input type="radio" name="attendance" value="no" className="peer sr-only" />
+                    <div className="w-6 h-6 rounded-full border-2 border-[#e6d5c3]/50 peer-checked:border-[#f3e3ce] transition-colors"></div>
+                    <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
-                  <span className="text-[#f3e3ce]/80 peer-checked:text-[#f3e3ce] font-light tracking-wide transition-colors">
-                    {t.rsvp.declineText}
+                  <span className="text-white/80 group-hover:text-white transition-colors font-light">
+                    ไม่สามารถมาร่วมงานได้
                   </span>
                 </label>
               </div>
-            </div>
+            </motion.div>
 
             <button 
               type="submit"
-              className="w-full py-4 mt-8 bg-transparent border border-[#e6d5c3] text-[#e6d5c3] rounded-full font-serif italic text-xl hover:bg-[#e6d5c3] hover:text-black transition-all duration-500"
+              disabled={isSubmitting || isSuccess}
+              className={`w-full flex items-center justify-center gap-3 py-4 mt-8 bg-transparent border border-[#e6d5c3] text-[#e6d5c3] rounded-full font-serif italic text-xl transition-all duration-500 ${
+                isSuccess 
+                  ? 'bg-[#e6d5c3] text-[#2c2825] border-[#e6d5c3]' 
+                  : 'hover:bg-[#e6d5c3] hover:text-black disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-[#e6d5c3]'
+              }`}
             >
-              {t.rsvp.confirmButton}
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  กำลังส่ง...
+                </>
+              ) : isSuccess ? (
+                <>
+                  <svg className="h-5 w-5 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  สำเร็จ!
+                </>
+              ) : (
+                "ยืนยันการเข้าร่วม"
+              )}
             </button>
           </motion.form>
+
+          {/* RSVP Counter */}
+          <div className="mt-12 text-center">
+            {isLoading ? (
+              <div className="inline-flex flex-col items-center justify-center p-6 border border-[#e6d5c3]/10 rounded-2xl bg-black/10 backdrop-blur-sm animate-pulse">
+                <span className="text-[#f3e3ce]/50 font-light text-sm">กำลังอัปเดตยอดแขก...</span>
+              </div>
+            ) : rsvpTotal !== null ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="relative z-10"
+              >
+                <div className="inline-flex flex-col items-center justify-center p-6 border border-[#e6d5c3]/30 rounded-2xl bg-black/20 backdrop-blur-sm shadow-xl">
+                  <span className="text-[#f3e3ce]/80 font-light text-sm tracking-widest uppercase mb-2">Guest List</span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-serif italic text-5xl text-white drop-shadow-md">{rsvpTotal}</span>
+                    <span className="text-[#f3e3ce]/90 font-light text-xl">ท่าน</span>
+                  </div>
+                  <span className="text-[#f3e3ce]/70 font-light text-xs mt-2">ได้ตอบรับคำเชิญเพื่อมาร่วมยินดีกับเราแล้ว</span>
+                </div>
+              </motion.div>
+            ) : null}
+          </div>
         </motion.div>
 
         <motion.p variants={fadeUp} className="mt-20 font-cursive text-white/90 drop-shadow-2xl text-4xl md:text-5xl">
-          {t.rsvp.footerMessage}
+          Can&apos;t wait to see you all ♡︎
         </motion.p>
       </motion.div>
     </section>
