@@ -3,12 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function GallerySection() {
-  const { t } = useLanguage();
   return (
     <section className="relative py-32 bg-[#fdfbfb] w-full flex items-center justify-center overflow-hidden px-6">
       <motion.div 
@@ -19,7 +17,8 @@ export default function GallerySection() {
         className="z-10 w-full max-w-7xl mx-auto"
       >
         <motion.div variants={fadeUp} className="text-center mb-20">
-          <h2 className="font-cursive text-7xl md:text-8xl text-[#8c5b65] mb-4">{t.gallery.title}</h2>
+          <motion.p variants={fadeUp} className="text-[#8c847d] text-xs uppercase tracking-[0.3em] font-semibold mb-2">Our Memories</motion.p>
+          <motion.h2 variants={fadeUp} className="font-cursive text-5xl md:text-6xl text-[#2c2825] mb-6">Gallery</motion.h2>
           <p className="text-[#8c5b65]/60 tracking-[0.3em] uppercase text-xs">#haveaTtime</p>
         </motion.div>
 

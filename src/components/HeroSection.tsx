@@ -5,12 +5,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function HeroSection() {
-  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -112,7 +110,7 @@ export default function HeroSection() {
           variants={fadeUp}
           className="uppercase tracking-[0.3em] text-[10px] md:text-xs text-white/80 mb-6 font-medium drop-shadow-md"
         >
-          {t.hero.invited}
+          You're Invited
         </motion.span>
 
         <motion.h1
@@ -142,7 +140,7 @@ export default function HeroSection() {
           >
             <div className="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-white/70" />
             <p className="text-white text-[10px] md:text-xs uppercase tracking-[0.4em] font-medium drop-shadow-md">
-              {t.hero.saveTheDate}
+              Save the Date
             </p>
             <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/70" />
           </motion.div>
@@ -150,7 +148,7 @@ export default function HeroSection() {
           {isWeddingDay ? (
             <motion.div variants={scaleUp} className="mb-12">
               <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
-                {t.hero.today}
+                Today is the Day!
               </h2>
             </motion.div>
           ) : (
@@ -159,10 +157,10 @@ export default function HeroSection() {
               className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12"
             >
               {[
-                { label: t.hero.days, value: timeLeft.days },
-                { label: t.hero.hours, value: timeLeft.hours },
-                { label: t.hero.mins, value: timeLeft.minutes },
-                { label: t.hero.secs, value: timeLeft.seconds },
+                { label: "Days", value: timeLeft.days },
+                { label: "Hours", value: timeLeft.hours },
+                { label: "Mins", value: timeLeft.minutes },
+                { label: "Secs", value: timeLeft.seconds },
               ].map((item, idx) => (
                 <div
                   key={idx}

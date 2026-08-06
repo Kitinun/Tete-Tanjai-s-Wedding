@@ -4,13 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useWeddingData } from "@/lib/WeddingDataContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function RsvpSection() {
-  const { t } = useLanguage();
   const { rsvpTotal, isLoading, incrementRsvp } = useWeddingData();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -101,10 +99,10 @@ export default function RsvpSection() {
             RSVP
           </motion.h2>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-1 relative z-10">
-            {t.rsvp.subtitle1}
+            To help us prepare and take care of everyone,
           </motion.p>
           <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-12 relative z-10">
-            {t.rsvp.subtitle2}
+            please kindly reply using this form.
           </motion.p>
 
           {/* Form */}
@@ -116,7 +114,7 @@ export default function RsvpSection() {
             {/* Name Input */}
             <motion.div variants={fadeUp} className="space-y-3">
               <label htmlFor="name" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
-                ชื่อ - นามสกุล
+                Name
               </label>
               <input
                 type="text"
@@ -124,31 +122,31 @@ export default function RsvpSection() {
                 name="name"
                 required
                 className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light placeholder:text-white/30"
-                placeholder="กรอกชื่อ - นามสกุล"
+                placeholder="Enter your full name"
               />
             </motion.div>
 
             {/* Guests Select */}
             <motion.div variants={fadeUp} className="space-y-3">
               <label htmlFor="guests" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
-                จำนวนผู้เข้าร่วม
+                Number of Guests
               </label>
               <select
                 id="guests"
                 name="guests"
                 className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light appearance-none cursor-pointer"
               >
-                <option value="1" className="text-black">1 ท่าน (มาคนเดียว)</option>
-                <option value="2" className="text-black">2 ท่าน (มีผู้ติดตาม)</option>
-                <option value="3" className="text-black">3 ท่าน</option>
-                <option value="4" className="text-black">4 ท่าน</option>
+                <option value="1" className="text-black">1 Guest (Just me)</option>
+                <option value="2" className="text-black">2 Guests (Plus one)</option>
+                <option value="3" className="text-black">3 Guests</option>
+                <option value="4" className="text-black">4 Guests</option>
               </select>
             </motion.div>
 
             {/* Attendance Radio */}
             <motion.div variants={fadeUp} className="space-y-5 pt-4">
               <label className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
-                การเข้าร่วม
+                Attendance
               </label>
               <div className="space-y-4">
                 <label className="flex items-center gap-4 cursor-pointer group">
@@ -158,7 +156,7 @@ export default function RsvpSection() {
                     <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
                   <span className="text-white/80 group-hover:text-white transition-colors font-light">
-                    ยินดีมาร่วมงาน
+                    Joyfully Accept
                   </span>
                 </label>
                 <label className="flex items-center gap-4 cursor-pointer group">
@@ -168,7 +166,7 @@ export default function RsvpSection() {
                     <div className="absolute w-3 h-3 rounded-full bg-[#f3e3ce] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                   </div>
                   <span className="text-white/80 group-hover:text-white transition-colors font-light">
-                    ไม่สามารถมาร่วมงานได้
+                    Regretfully Decline
                   </span>
                 </label>
               </div>
@@ -199,7 +197,7 @@ export default function RsvpSection() {
                   Success!
                 </>
               ) : (
-                t.rsvp.confirmButton
+                "Confirm Attendance"
               )}
             </button>
           </motion.form>
@@ -208,7 +206,7 @@ export default function RsvpSection() {
           <div className="mt-12 text-center">
             {isLoading ? (
               <div className="inline-flex flex-col items-center justify-center p-6 border border-[#e6d5c3]/10 rounded-2xl bg-black/10 backdrop-blur-sm animate-pulse">
-                <span className="text-[#f3e3ce]/50 font-light text-sm">กำลังอัปเดตยอดแขก...</span>
+                <span className="text-[#f3e3ce]/50 font-light text-sm">Updating guest count...</span>
               </div>
             ) : rsvpTotal !== null ? (
               <motion.div 
@@ -220,9 +218,9 @@ export default function RsvpSection() {
                   <span className="text-[#f3e3ce]/80 font-light text-sm tracking-widest uppercase mb-2">Guest List</span>
                   <div className="flex items-baseline gap-2">
                     <span className="font-serif italic text-5xl text-white drop-shadow-md">{rsvpTotal}</span>
-                    <span className="text-[#f3e3ce]/90 font-light text-xl">ท่าน</span>
+                    <span className="text-[#f3e3ce]/90 font-light text-xl">Guests</span>
                   </div>
-                  <span className="text-[#f3e3ce]/70 font-light text-xs mt-2">ได้ตอบรับคำเชิญเพื่อมาร่วมยินดีกับเราแล้ว</span>
+                  <span className="text-[#f3e3ce]/70 font-light text-xs mt-2">have confirmed to celebrate with us</span>
                 </div>
               </motion.div>
             ) : null}
@@ -230,7 +228,7 @@ export default function RsvpSection() {
         </motion.div>
 
         <motion.p variants={fadeUp} className="mt-20 font-cursive text-white/90 drop-shadow-2xl text-4xl md:text-5xl">
-          {t.rsvp.footerMessage}
+          Can&apos;t wait to see you all ♡︎
         </motion.p>
       </motion.div>
     </section>

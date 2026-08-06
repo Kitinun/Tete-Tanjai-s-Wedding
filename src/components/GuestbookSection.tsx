@@ -4,13 +4,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
-import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useWeddingData, Wish } from "@/lib/WeddingDataContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function GuestbookSection() {
-  const { t } = useLanguage();
   const { wishes, isLoading, addWish } = useWeddingData();
   const [displayedWishes, setDisplayedWishes] = useState<Wish[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -132,9 +130,9 @@ export default function GuestbookSection() {
         {/* Header */}
         <motion.div variants={fadeUp} className="text-center mb-16">
           <p className="text-[#c1869e] text-xs uppercase tracking-[0.3em] font-semibold mb-4">Guestbook</p>
-          <h2 className="font-cursive text-6xl md:text-7xl text-[#2c2825] mb-4">{t.guestbook.title}</h2>
+          <h2 className="font-cursive text-6xl md:text-7xl text-[#2c2825] mb-4">Wishes for Us</h2>
           <p className="text-[#6d6661] text-sm md:text-base font-light tracking-wide max-w-lg mx-auto">
-            {t.guestbook.subtitle}
+            Share your blessings and kind words with us
           </p>
         </motion.div>
 
@@ -144,7 +142,7 @@ export default function GuestbookSection() {
           onClick={() => setIsModalOpen(true)}
           className="mb-20 bg-[#2c2825] text-[#f9f5e3] px-8 py-4 rounded-full font-serif italic text-xl shadow-xl hover:bg-[#c1869e] hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
         >
-          ✍🏻 เขียนคำอวยพร
+          ✍🏻 Leave a Wish
         </motion.button>
 
         {/* Wishes Grid */}
@@ -155,11 +153,11 @@ export default function GuestbookSection() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <p className="text-[#6d6661] font-light text-sm">กำลังโหลดคำอวยพร...</p>
+              <p className="text-[#6d6661] font-light text-sm">Loading wishes...</p>
             </div>
           ) : displayedWishes.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-[#6d6661] font-light">ยังไม่มีคำอวยพร เป็นคนแรกที่เขียนคำอวยพรสิ!</p>
+              <p className="text-[#6d6661] font-light">No wishes yet. Be the first to leave one!</p>
             </div>
           ) : (
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
@@ -215,8 +213,8 @@ export default function GuestbookSection() {
                 ✕
               </button>
               
-              <h3 className="font-cursive text-5xl text-[#2c2825] mb-2 text-center">{t.guestbook.modalTitle}</h3>
-              <p className="text-center text-[#6d6661] text-sm mb-8 font-light">{t.guestbook.modalSubtitle}</p>
+              <h3 className="font-cursive text-5xl text-[#2c2825] mb-2 text-center">Your Wish</h3>
+              <p className="text-center text-[#6d6661] text-sm mb-8 font-light">Leave a message for the couple</p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -226,7 +224,7 @@ export default function GuestbookSection() {
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     className="w-full bg-transparent border-b border-[#2c2825]/20 px-2 py-3 text-[#2c2825] focus:outline-none focus:border-[#c1869e] transition-colors font-light"
-                    placeholder={t.guestbook.namePlaceholder}
+                    placeholder="Your Name"
                   />
                 </div>
                 <div>
@@ -236,7 +234,7 @@ export default function GuestbookSection() {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     className="w-full bg-white/50 border border-[#2c2825]/10 rounded-2xl p-4 text-[#2c2825] focus:outline-none focus:border-[#c1869e] focus:bg-white transition-colors font-light resize-none"
-                    placeholder={t.guestbook.messagePlaceholder}
+                    placeholder="Your Message"
                   />
                 </div>
                 <button 
@@ -250,9 +248,9 @@ export default function GuestbookSection() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      กำลังส่ง...
+                      Sending...
                     </>
-                  ) : "ส่งคำอวยพร"}
+                  ) : "Send Wish"}
                 </button>
               </form>
             </motion.div>

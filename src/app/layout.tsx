@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Prompt, Playfair_Display, Alex_Brush } from "next/font/google";
-import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 import { WeddingDataProvider } from "@/lib/WeddingDataContext";
 import "./globals.css";
 
@@ -26,34 +25,34 @@ const alexBrush = Alex_Brush({
 export const metadata: Metadata = {
   title: "TeteTanjai's Wedding",
   description:
-    "ขอเชิญร่วมงานมงคลสมรส วงศธร & ภัทรภัค (แทนใจ & เตเต้) วันเสาร์ที่ 19 กันยายน 2026 ณ The Halls Bangkok #haveaTtime",
+    "You are cordially invited to the wedding of Wongsathon & Pattarapak (Tanjai & Tete) on Saturday, September 19, 2026, at The Halls Bangkok #haveaTtime",
   icons: {
     icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>",
   },
   openGraph: {
     title: "TeteTanjai's Wedding",
     description:
-      "ขอเชิญร่วมงานมงคลสมรส วงศธร & ภัทรภัค (แทนใจ & เตเต้) วันเสาร์ที่ 19 กันยายน 2026 ณ The Halls Bangkok #haveaTtime",
-    url: "https://tetetanjai-wedding.vercel.app", // Placeholder URL
+      "You are cordially invited to the wedding of Wongsathon & Pattarapak (Tanjai & Tete) on Saturday, September 19, 2026, at The Halls Bangkok #haveaTtime",
+    url: "https://tete-tanjai-wedding.vercel.app",
     siteName: "Tete-Tanjai's Wedding",
     images: [
       {
-        url: "https://tetetanjaiwedding.my.canva.site/_assets/media/5631863cceece250be09d149b52ef06a.jpg",
+        url: "https://tete-tanjai-wedding.vercel.app/og-image-v2.jpg",
         width: 1200,
         height: 630,
         alt: "Tete & Tanjai Wedding Invitation",
       },
     ],
-    locale: "th_TH",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "TeteTanjai's Wedding",
     description:
-      "ขอเชิญร่วมงานมงคลสมรส วงศธร & ภัทรภัค (แทนใจ & เตเต้) วันเสาร์ที่ 19 กันยายน 2026",
+      "You are cordially invited to the wedding of Wongsathon & Pattarapak (Tanjai & Tete) on Saturday, September 19, 2026",
     images: [
-      "https://tetetanjaiwedding.my.canva.site/_assets/media/5631863cceece250be09d149b52ef06a.jpg",
+      "https://tete-tanjai-wedding.vercel.app/og-image-v2.jpg",
     ],
   },
 };
@@ -64,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://script.google.com" />
         <link rel="preconnect" href="https://script.googleusercontent.com" />
@@ -72,11 +71,9 @@ export default function RootLayout({
       <body
         className={`${prompt.variable} ${playfair.variable} ${alexBrush.variable} antialiased`}
       >
-        <LanguageProvider>
-          <WeddingDataProvider>
-            {children}
-          </WeddingDataProvider>
-        </LanguageProvider>
+        <WeddingDataProvider>
+          {children}
+        </WeddingDataProvider>
       </body>
     </html>
   );
