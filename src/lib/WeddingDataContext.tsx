@@ -19,10 +19,19 @@ type WeddingData = {
 
 const WeddingDataContext = createContext<WeddingData | undefined>(undefined);
 
-export function WeddingDataProvider({ children }: { children: React.ReactNode }) {
-  const [wishes, setWishes] = useState<Wish[]>([]);
-  const [rsvpTotal, setRsvpTotal] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function WeddingDataProvider({ 
+  children,
+  initialWishes = [],
+  initialRsvpTotal = null
+}: { 
+  children: React.ReactNode;
+  initialWishes?: Wish[];
+  initialRsvpTotal?: number | null;
+}) {
+  const [wishes, setWishes] = useState<Wish[]>(initialWishes);
+  const [rsvpTotal, setRsvpTotal] = useState<number | null>(initialRsvpTotal);
+  // Only load on client if we didn't get initial data
+  const [isLoading, setIsLoading] = useState(initialWishes.length === 0 && initialRsvpTotal === null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +41,10 @@ export function WeddingDataProvider({ children }: { children: React.ReactNode })
           setIsLoading(false);
           return;
         }
+        
+        // If we already have initial data, we can optionally skip client fetch 
+        // or let it run to get the absolute latest data silently.
+        // Let's run it silently to ensure freshness if user stays on page.
         
         const response = await fetch(url);
         const text = await response.text();

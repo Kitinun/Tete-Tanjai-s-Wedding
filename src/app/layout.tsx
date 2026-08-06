@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Tete-Tanjai's Wedding",
     images: [
       {
-        url: "https://tete-tanjai-wedding.vercel.app/og-image-v2.jpg",
+        url: "https://tete-tanjai-wedding.vercel.app/og-image-wide.jpg",
         width: 1200,
         height: 630,
         alt: "Tete & Tanjai Wedding Invitation",
@@ -52,16 +52,41 @@ export const metadata: Metadata = {
     description:
       "You are cordially invited to the wedding of Wongsathon & Pattarapak (Tanjai & Tete) on Saturday, September 19, 2026",
     images: [
-      "https://tete-tanjai-wedding.vercel.app/og-image-v2.jpg",
+      "https://tete-tanjai-wedding.vercel.app/og-image-wide.jpg",
     ],
   },
 };
 
-export default function RootLayout({
+async function getInitialWeddingData() {
+  const url = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+  if (!url) return { initialWishes: [], initialRsvpTotal: null };
+  
+  try {
+    // Fetch data server-side and cache it for 60 seconds (ISR)
+    const res = await fetch(url, { next: { revalidate: 60 } });
+    const text = await res.text();
+    if (text.trim().startsWith('<')) return { initialWishes: [], initialRsvpTotal: null };
+    
+    const result = JSON.parse(text);
+    if (result.status === "success") {
+      return { 
+        initialWishes: result.data || [], 
+        initialRsvpTotal: typeof result.rsvpTotal === "number" ? result.rsvpTotal : null 
+      };
+    }
+  } catch (e) {
+    console.error("Failed to fetch initial wedding data:", e);
+  }
+  return { initialWishes: [], initialRsvpTotal: null };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { initialWishes, initialRsvpTotal } = await getInitialWeddingData();
+
   return (
     <html lang="en">
       <head>
@@ -71,7 +96,7 @@ export default function RootLayout({
       <body
         className={`${prompt.variable} ${playfair.variable} ${alexBrush.variable} antialiased`}
       >
-        <WeddingDataProvider>
+        <WeddingDataProvider initialWishes={initialWishes} initialRsvpTotal={initialRsvpTotal}>
           {children}
         </WeddingDataProvider>
       </body>
