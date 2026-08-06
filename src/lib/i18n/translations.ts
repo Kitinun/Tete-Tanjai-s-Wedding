@@ -10,11 +10,11 @@ export const translations = {
       hours: "Hours",
       mins: "Mins",
       secs: "Secs",
-      today: "Today is the Day!"
+      today: "Today is the Day!",
     },
     invitation: {
-      groom: "นาย วงศธร บุญอยู่ (เตเต้)",
-      bride: "นางสาว ภัทรภัค โพธิกุล (แทนใจ)",
+      groom: "นาย วงศธร บุญอยู่ (แทนใจ)",
+      bride: "นางสาว ภัทรภัค โพธิกุล (เตเต้)",
       parents: "บุตร-ธิดา",
       date: "เสาร์ 19 กันยายน",
       year: "2026",
@@ -22,7 +22,7 @@ export const translations = {
       photo: "Photo Backdrop",
       reception: "Wedding Reception",
       afterParty: "After Party",
-      addToCalendar: "Add to Calendar"
+      addToCalendar: "Add to Calendar",
     },
     map: {
       location: "Location",
@@ -30,10 +30,10 @@ export const translations = {
       address: "ซอยวิภาวดี 64 แยก 2 กรุงเทพมหานคร",
       directions: "Get Directions",
       dressCode: "Dress Code",
-      viewDressCode: "View Dress Code"
+      viewDressCode: "View Dress Code",
     },
     gallery: {
-      title: "Our Moments"
+      title: "Our Moments",
     },
     guestbook: {
       title: "Wishes for Us",
@@ -43,18 +43,19 @@ export const translations = {
       modalSubtitle: "ฝากคำอวยพรถึงบ่าวสาว",
       namePlaceholder: "ชื่อของคุณ (Name)",
       messagePlaceholder: "ข้อความอวยพร (Your Message)",
-      sendButton: "Send Wish"
+      sendButton: "Send Wish",
     },
     gifting: {
       title: "Send a Gift",
-      subtitle: "สำหรับแขกผู้มีเกียรติที่ไม่สะดวกมาร่วมงาน แต่ประสงค์จะมอบซองผูกข้อมือเพื่อแสดงความยินดี",
+      subtitle:
+        "สำหรับแขกผู้มีเกียรติที่ไม่สะดวกมาร่วมงาน แต่ประสงค์จะมอบซองผูกข้อมือเพื่อแสดงความยินดี",
       button: "💌 Click for Details",
       modalTitle: "With Thanks",
       modalSubtitle: "ขอบพระคุณสำหรับทุกคำอวยพรครับ/ค่ะ",
       bank: "ธนาคารกสิกรไทย (KBank)",
       accountName: "นาย วงศธร บุญอยู่",
       copyButton: "Copy Account",
-      copiedButton: "Copied!"
+      copiedButton: "Copied!",
     },
     rsvp: {
       title: "RSVP",
@@ -71,8 +72,8 @@ export const translations = {
       acceptText: "ยินดีมาร่วมงาน (Joyfully Accept)",
       declineText: "ไม่สามารถมาร่วมงานได้ (Regretfully Decline)",
       confirmButton: "Confirm Attendance",
-      footerMessage: "Can't wait to see you all ♡︎"
-    }
+      footerMessage: "Can't wait to see you all ♡︎",
+    },
   },
   en: {
     hero: {
@@ -83,11 +84,11 @@ export const translations = {
       hours: "Hours",
       mins: "Mins",
       secs: "Secs",
-      today: "Today is the Day!"
+      today: "Today is the Day!",
     },
     invitation: {
-      groom: "Wongsathon Bunyu (Tete)",
-      bride: "Pattarapak Photikul (Tanjai)",
+      groom: "Wongsathon Bunyu (Tanjai)",
+      bride: "Pattarapak Photikul (Tete)",
       parents: "Son & Daughter of",
       date: "Saturday 19 September",
       year: "2026",
@@ -95,7 +96,7 @@ export const translations = {
       photo: "Photo Backdrop",
       reception: "Wedding Reception",
       afterParty: "After Party",
-      addToCalendar: "Add to Calendar"
+      addToCalendar: "Add to Calendar",
     },
     map: {
       location: "Location",
@@ -103,10 +104,10 @@ export const translations = {
       address: "Soi Vibhavadi 64 Yaek 2, Bangkok",
       directions: "Get Directions",
       dressCode: "Dress Code",
-      viewDressCode: "View Dress Code"
+      viewDressCode: "View Dress Code",
     },
     gallery: {
-      title: "Our Moments"
+      title: "Our Moments",
     },
     guestbook: {
       title: "Wishes for Us",
@@ -116,18 +117,19 @@ export const translations = {
       modalSubtitle: "Leave a message for the couple",
       namePlaceholder: "Your Name",
       messagePlaceholder: "Your Message",
-      sendButton: "Send Wish"
+      sendButton: "Send Wish",
     },
     gifting: {
       title: "Send a Gift",
-      subtitle: "For guests who are unable to attend but wish to send a blessing or gift",
+      subtitle:
+        "For guests who are unable to attend but wish to send a blessing or gift",
       button: "💌 Click for Details",
       modalTitle: "With Thanks",
       modalSubtitle: "Thank you for all your warm wishes",
       bank: "Kasikornbank (KBank)",
       accountName: "Mr. Wongsathon Bunyu",
       copyButton: "Copy Account",
-      copiedButton: "Copied!"
+      copiedButton: "Copied!",
     },
     rsvp: {
       title: "RSVP",
@@ -144,7 +146,7 @@ export const translations = {
       acceptText: "Joyfully Accept",
       declineText: "Regretfully Decline",
       confirmButton: "Confirm Attendance",
-      footerMessage: "Can't wait to see you all ♡︎"
-    }
-  }
+      footerMessage: "Can't wait to see you all ♡︎",
+    },
+  },
 };

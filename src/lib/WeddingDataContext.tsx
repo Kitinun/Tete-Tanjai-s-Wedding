@@ -34,7 +34,15 @@ export function WeddingDataProvider({ children }: { children: React.ReactNode })
         }
         
         const response = await fetch(url);
-        const result = await response.json();
+        const text = await response.text();
+        
+        // Handle case where script URL is not deployed or returns HTML
+        if (text.trim().startsWith('<')) {
+          console.warn("Google Script returned HTML (likely not deployed correctly). Skipping data fetch.");
+          return;
+        }
+        
+        const result = JSON.parse(text);
         
         if (result.status === "success") {
           if (result.data) setWishes(result.data);

@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useWeddingData, Wish } from "@/lib/WeddingDataContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
 export default function GuestbookSection() {
+  const { t } = useLanguage();
   const { wishes, isLoading, addWish } = useWeddingData();
   const [displayedWishes, setDisplayedWishes] = useState<Wish[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -130,9 +132,9 @@ export default function GuestbookSection() {
         {/* Header */}
         <motion.div variants={fadeUp} className="text-center mb-16">
           <p className="text-[#c1869e] text-xs uppercase tracking-[0.3em] font-semibold mb-4">Guestbook</p>
-          <h2 className="font-cursive text-6xl md:text-7xl text-[#2c2825] mb-4">Wishes for Us</h2>
+          <h2 className="font-cursive text-6xl md:text-7xl text-[#2c2825] mb-4">{t.guestbook.title}</h2>
           <p className="text-[#6d6661] text-sm md:text-base font-light tracking-wide max-w-lg mx-auto">
-            ร่วมส่งคำอวยพร หรือความรู้สึกดีๆ ให้กับเราสองคน
+            {t.guestbook.subtitle}
           </p>
         </motion.div>
 
@@ -213,8 +215,8 @@ export default function GuestbookSection() {
                 ✕
               </button>
               
-              <h3 className="font-cursive text-5xl text-[#2c2825] mb-2 text-center">คำอวยพร</h3>
-              <p className="text-center text-[#6d6661] text-sm mb-8 font-light">ฝากคำอวยพรถึงบ่าวสาว</p>
+              <h3 className="font-cursive text-5xl text-[#2c2825] mb-2 text-center">{t.guestbook.modalTitle}</h3>
+              <p className="text-center text-[#6d6661] text-sm mb-8 font-light">{t.guestbook.modalSubtitle}</p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -224,7 +226,7 @@ export default function GuestbookSection() {
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     className="w-full bg-transparent border-b border-[#2c2825]/20 px-2 py-3 text-[#2c2825] focus:outline-none focus:border-[#c1869e] transition-colors font-light"
-                    placeholder="ชื่อของคุณ"
+                    placeholder={t.guestbook.namePlaceholder}
                   />
                 </div>
                 <div>
@@ -234,7 +236,7 @@ export default function GuestbookSection() {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     className="w-full bg-white/50 border border-[#2c2825]/10 rounded-2xl p-4 text-[#2c2825] focus:outline-none focus:border-[#c1869e] focus:bg-white transition-colors font-light resize-none"
-                    placeholder="ข้อความอวยพรของคุณ"
+                    placeholder={t.guestbook.messagePlaceholder}
                   />
                 </div>
                 <button 

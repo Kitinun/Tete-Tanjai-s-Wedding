@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Prompt, Playfair_Display, Alex_Brush } from "next/font/google";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 import { WeddingDataProvider } from "@/lib/WeddingDataContext";
 import "./globals.css";
 
@@ -71,9 +72,11 @@ export default function RootLayout({
       <body
         className={`${prompt.variable} ${playfair.variable} ${alexBrush.variable} antialiased`}
       >
+        <LanguageProvider>
           <WeddingDataProvider>
             {children}
           </WeddingDataProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
