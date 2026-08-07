@@ -63,7 +63,7 @@ export default function RsvpSection() {
   };
 
   return (
-    <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden py-32">
+    <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden py-16 md:py-24">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <Image 
@@ -91,17 +91,17 @@ export default function RsvpSection() {
           <Image src={`${CANVA_BASE}_assets/media/9e00507e84aa7092c87861af29bd521f.png`} fill alt="Sparkle" className="object-contain" />
         </div>
 
-        <motion.div variants={scaleUp} className="bg-black/40 backdrop-blur-[8px] rounded-t-full rounded-b-3xl p-8 pt-16 md:p-14 md:pt-20 shadow-[0_32px_64px_rgba(0,0,0,0.6)] border border-[#e6d5c3]/30 relative overflow-hidden">
+        <motion.div variants={scaleUp} className="bg-black/40 backdrop-blur-[8px] rounded-t-[3rem] rounded-b-3xl p-5 pt-8 md:p-8 md:pt-10 shadow-[0_32px_64px_rgba(0,0,0,0.6)] border border-[#e6d5c3]/30 relative overflow-hidden">
           {/* Vintage inner border */}
           <div className="absolute inset-4 border border-[#e6d5c3]/20 rounded-t-full rounded-b-2xl pointer-events-none" />
 
-          <motion.h2 variants={fadeUp} className="font-cursive text-7xl md:text-8xl mb-4 text-[#f3e3ce] drop-shadow-lg relative z-10">
+          <motion.h2 variants={fadeUp} className="font-cursive text-6xl md:text-7xl mb-2 text-[#f3e3ce] drop-shadow-lg relative z-10">
             RSVP
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-1 relative z-10">
+          <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-[13px] md:text-sm leading-relaxed font-light tracking-wide mb-1 relative z-10">
             To help us prepare and take care of everyone,
           </motion.p>
-          <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-sm md:text-base leading-relaxed font-light tracking-wide mb-12 relative z-10">
+          <motion.p variants={fadeUp} className="text-[#f3e3ce]/80 text-[13px] md:text-sm leading-relaxed font-light tracking-wide mb-4 relative z-10">
             please kindly reply using this form.
           </motion.p>
 
@@ -109,10 +109,10 @@ export default function RsvpSection() {
           <motion.form 
             variants={staggerContainer}
             onSubmit={handleSubmit} 
-            className="space-y-10 relative z-10"
+            className="space-y-4 relative z-10"
           >
             {/* Name Input */}
-            <motion.div variants={fadeUp} className="space-y-3">
+            <motion.div variants={fadeUp} className="space-y-1">
               <label htmlFor="name" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
                 Name
               </label>
@@ -121,20 +121,20 @@ export default function RsvpSection() {
                 id="name"
                 name="name"
                 required
-                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light placeholder:text-white/30"
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light placeholder:text-white/30 text-sm"
                 placeholder="Enter your full name"
               />
             </motion.div>
 
             {/* Guests Select */}
-            <motion.div variants={fadeUp} className="space-y-3">
+            <motion.div variants={fadeUp} className="space-y-1">
               <label htmlFor="guests" className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
                 Number of Guests
               </label>
               <select
                 id="guests"
                 name="guests"
-                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-4 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light appearance-none cursor-pointer"
+                className="w-full bg-transparent border-b border-[#e6d5c3]/40 px-2 py-2 text-white focus:outline-none focus:border-[#f3e3ce] transition-colors font-light appearance-none cursor-pointer text-sm"
               >
                 <option value="1" className="text-black">1 Guest (Just me)</option>
                 <option value="2" className="text-black">2 Guests (Plus one)</option>
@@ -144,11 +144,11 @@ export default function RsvpSection() {
             </motion.div>
 
             {/* Attendance Radio */}
-            <motion.div variants={fadeUp} className="space-y-5 pt-4">
+            <motion.div variants={fadeUp} className="space-y-2 pt-2">
               <label className="block text-sm font-light text-[#e6d5c3] tracking-wider uppercase">
                 Attendance
               </label>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <label className="flex items-center gap-4 cursor-pointer group">
                   <div className="relative flex items-center justify-center">
                     <input type="radio" name="attendance" value="yes" defaultChecked className="peer sr-only" />
@@ -175,7 +175,7 @@ export default function RsvpSection() {
             <button 
               type="submit"
               disabled={isSubmitting || isSuccess}
-              className={`w-full flex items-center justify-center gap-3 py-4 mt-8 bg-transparent border border-[#e6d5c3] text-[#e6d5c3] rounded-full font-serif italic text-xl transition-all duration-500 ${
+              className={`w-full flex items-center justify-center gap-3 py-2 mt-4 bg-transparent border border-[#e6d5c3] text-[#e6d5c3] rounded-full font-serif italic text-lg transition-all duration-500 ${
                 isSuccess 
                   ? 'bg-[#e6d5c3] text-[#2c2825] border-[#e6d5c3]' 
                   : 'hover:bg-[#e6d5c3] hover:text-black disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-[#e6d5c3]'
@@ -203,9 +203,9 @@ export default function RsvpSection() {
           </motion.form>
 
           {/* RSVP Counter */}
-          <div className="mt-12 text-center">
+          <div className="mt-6 text-center">
             {isLoading ? (
-              <div className="inline-flex flex-col items-center justify-center p-6 border border-[#e6d5c3]/10 rounded-2xl bg-black/10 backdrop-blur-sm animate-pulse">
+              <div className="inline-flex flex-col items-center justify-center p-4 border border-[#e6d5c3]/10 rounded-2xl bg-black/10 backdrop-blur-sm animate-pulse">
                 <span className="text-[#f3e3ce]/50 font-light text-sm">Updating guest count...</span>
               </div>
             ) : rsvpTotal !== null ? (
@@ -214,7 +214,7 @@ export default function RsvpSection() {
                 animate={{ opacity: 1, y: 0 }}
                 className="relative z-10"
               >
-                <div className="inline-flex flex-col items-center justify-center p-6 border border-[#e6d5c3]/30 rounded-2xl bg-black/20 backdrop-blur-sm shadow-xl">
+                <div className="inline-flex flex-col items-center justify-center p-4 border border-[#e6d5c3]/30 rounded-2xl bg-black/20 backdrop-blur-sm shadow-xl">
                   <span className="text-[#f3e3ce]/80 font-light text-sm tracking-widest uppercase mb-2">Guest List</span>
                   <div className="flex items-baseline gap-2">
                     <span className="font-serif italic text-5xl text-white drop-shadow-md">{rsvpTotal}</span>
@@ -227,7 +227,7 @@ export default function RsvpSection() {
           </div>
         </motion.div>
 
-        <motion.p variants={fadeUp} className="mt-20 font-cursive text-white/90 drop-shadow-2xl text-4xl md:text-5xl">
+        <motion.p variants={fadeUp} className="mt-6 font-cursive text-white/90 drop-shadow-2xl text-4xl md:text-5xl">
           Can&apos;t wait to see you all ♡︎
         </motion.p>
       </motion.div>
