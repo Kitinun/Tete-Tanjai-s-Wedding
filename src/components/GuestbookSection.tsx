@@ -8,6 +8,24 @@ import { useWeddingData, Wish } from "@/lib/WeddingDataContext";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
+const formatThaiTime = (dateStr: string) => {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat('th-TH', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Asia/Bangkok'
+    }).format(d) + ' น.';
+  } catch {
+    return dateStr;
+  }
+};
+
 export default function GuestbookSection() {
   const { wishes, isLoading, addWish } = useWeddingData();
   const [displayedWishes, setDisplayedWishes] = useState<Wish[]>([]);
@@ -83,7 +101,7 @@ export default function GuestbookSection() {
         id: Date.now(),
         name: newName,
         message: newMessage,
-        date: new Date().toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' })
+        date: new Date().toISOString()
       };
       
       const MAX_DISPLAY = 6;
@@ -177,7 +195,7 @@ export default function GuestbookSection() {
                     </p>
                     <div className="flex flex-col border-t border-[#e6d5c3]/30 pt-4">
                       <span className="font-serif italic text-[#c1869e] text-lg">{wish.name}</span>
-                      <span className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">{wish.date}</span>
+                      <span className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">{formatThaiTime(wish.date)}</span>
                     </div>
                   </motion.div>
                 ))}
