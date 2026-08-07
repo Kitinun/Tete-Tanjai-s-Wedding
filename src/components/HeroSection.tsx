@@ -52,6 +52,7 @@ export default function HeroSection() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const targetDate = new Date("2026-09-19T17:30:00+07:00").getTime();
 
@@ -110,7 +111,7 @@ export default function HeroSection() {
           variants={fadeUp}
           className="uppercase tracking-[0.3em] text-[10px] md:text-xs text-white/80 mb-6 font-medium drop-shadow-md"
         >
-          You're Invited
+          You&apos;re Invited
         </motion.span>
 
         <motion.h1

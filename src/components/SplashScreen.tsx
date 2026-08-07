@@ -57,7 +57,7 @@ export default function SplashScreen() {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-[#8c847d] text-xs uppercase tracking-[0.4em]"
             >
-              You're Invited
+              You&apos;re Invited
             </motion.p>
           </motion.div>
         </motion.div>
