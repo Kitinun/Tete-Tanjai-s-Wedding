@@ -78,7 +78,6 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, []);
 
-  if (!mounted) return null;
 
   return (
     <section
@@ -146,36 +145,47 @@ export default function HeroSection() {
             <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/70" />
           </motion.div>
 
-          {isWeddingDay ? (
-            <motion.div variants={scaleUp} className="mb-12">
-              <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
-                Today is the Day!
-              </h2>
-            </motion.div>
+          {mounted ? (
+            isWeddingDay ? (
+              <motion.div variants={scaleUp} className="mb-12">
+                <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
+                  Today is the Day!
+                </h2>
+              </motion.div>
+            ) : (
+              <motion.div
+                variants={scaleUp}
+                className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12"
+              >
+                {[
+                  { label: "Days", value: timeLeft.days },
+                  { label: "Hours", value: timeLeft.hours },
+                  { label: "Mins", value: timeLeft.minutes },
+                  { label: "Secs", value: timeLeft.seconds },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+                  >
+                    <span className="font-serif text-3xl md:text-5xl font-light">
+                      {item.value}
+                    </span>
+                    <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">
+                      {item.label}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+            )
           ) : (
-            <motion.div
-              variants={scaleUp}
-              className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12"
-            >
-              {[
-                { label: "Days", value: timeLeft.days },
-                { label: "Hours", value: timeLeft.hours },
-                { label: "Mins", value: timeLeft.minutes },
-                { label: "Secs", value: timeLeft.seconds },
-              ].map((item, idx) => (
+            <div className="flex gap-4 md:gap-8 mb-12">
+              {[1, 2, 3, 4].map((i) => (
                 <div
-                  key={idx}
-                  className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
-                >
-                  <span className="font-serif text-3xl md:text-5xl font-light">
-                    {item.value}
-                  </span>
-                  <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">
-                    {item.label}
-                  </span>
-                </div>
+                  key={i}
+                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 h-[80px] md:h-[110px] animate-pulse"
+                />
               ))}
-            </motion.div>
+            </div>
           )}
 
           <motion.p
