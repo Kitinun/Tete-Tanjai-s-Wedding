@@ -8,7 +8,7 @@ import { fadeUp, scaleUp, staggerContainer } from "@/lib/animations";
 
 const CANVA_BASE = "https://tetetanjaiwedding.my.canva.site/";
 
-export default function HeroSection() {
+const CountdownTimer = () => {
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -18,6 +18,83 @@ export default function HeroSection() {
   });
   const [isWeddingDay, setIsWeddingDay] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+    const targetDate = new Date("2026-09-19T17:30:00+07:00").getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor(
+            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          ),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      } else {
+        setIsWeddingDay(true);
+      }
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex gap-4 md:gap-8 mb-12">
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 h-[80px] md:h-[110px] animate-pulse"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (isWeddingDay) {
+    return (
+      <motion.div variants={scaleUp} className="mb-12">
+        <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
+          Today is the Day!
+        </h2>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      variants={scaleUp}
+      className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12"
+    >
+      {[
+        { label: "Days", value: timeLeft.days },
+        { label: "Hours", value: timeLeft.hours },
+        { label: "Mins", value: timeLeft.minutes },
+        { label: "Secs", value: timeLeft.seconds },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+        >
+          <span className="font-serif text-3xl md:text-5xl font-light">
+            {item.value}
+          </span>
+          <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">
+            {item.label}
+          </span>
+        </div>
+      ))}
+    </motion.div>
+  );
+};
+
+export default function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
 
@@ -50,34 +127,6 @@ export default function HeroSection() {
     };
     frame();
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-    const targetDate = new Date("2026-09-19T17:30:00+07:00").getTime();
-
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(
-            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-          ),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000),
-        });
-      } else {
-        setIsWeddingDay(true);
-      }
-    };
-
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
 
   return (
     <section
@@ -145,48 +194,7 @@ export default function HeroSection() {
             <div className="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-white/70" />
           </motion.div>
 
-          {mounted ? (
-            isWeddingDay ? (
-              <motion.div variants={scaleUp} className="mb-12">
-                <h2 className="font-cursive text-6xl md:text-8xl text-[#f3e3ce] drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse">
-                  Today is the Day!
-                </h2>
-              </motion.div>
-            ) : (
-              <motion.div
-                variants={scaleUp}
-                className="flex gap-4 md:gap-8 text-white drop-shadow-xl mb-12"
-              >
-                {[
-                  { label: "Days", value: timeLeft.days },
-                  { label: "Hours", value: timeLeft.hours },
-                  { label: "Mins", value: timeLeft.minutes },
-                  { label: "Secs", value: timeLeft.seconds },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-col items-center justify-center bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
-                  >
-                    <span className="font-serif text-3xl md:text-5xl font-light">
-                      {item.value}
-                    </span>
-                    <span className="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-white/70 mt-2">
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
-              </motion.div>
-            )
-          ) : (
-            <div className="flex gap-4 md:gap-8 mb-12">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 min-w-[75px] md:min-w-[100px] border border-white/10 h-[80px] md:h-[110px] animate-pulse"
-                />
-              ))}
-            </div>
-          )}
+          <CountdownTimer />
 
           <motion.p
             variants={fadeUp}

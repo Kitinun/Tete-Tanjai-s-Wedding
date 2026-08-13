@@ -22,7 +22,7 @@ export default function InteractiveSparkles() {
 
   useEffect(() => {
     let lastTime = 0;
-    const throttleDelay = 50; // Add sparkle at most every 50ms to prevent performance issues
+    const throttleDelay = 150; // Throttle to 150ms to significantly reduce performance hit
 
     const handlePointerMove = (e: MouseEvent | TouchEvent) => {
       const now = Date.now();
